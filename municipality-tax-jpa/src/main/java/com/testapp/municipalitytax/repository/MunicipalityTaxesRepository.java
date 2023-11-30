@@ -66,10 +66,9 @@ public class MunicipalityTaxesRepository implements TaxesRepository {
   public List<MunicipalityTax> getAllMunicipalityTaxes() {
     List<TaxEntity> taxEntities = taxesJpaRepository.findAll();
 
-    List<MunicipalityTax> municipalityTaxes = taxEntities
+    return taxEntities
             .stream()
             .map(tax -> conversionService.convert(tax, MunicipalityTax.class))
             .toList();
-    return municipalityTaxes;
   }
 }

@@ -11,13 +11,12 @@ import org.springframework.stereotype.Component;
 public class MunicipalityTaxToTaxEntityConverter implements Converter<MunicipalityTax, TaxEntity> {
   @Override
   public TaxEntity convert(MunicipalityTax source) {
-    TaxEntity tax = new TaxEntity(source.id(),
+
+    return new TaxEntity(source.id(),
             source.municipality(),
             source.tax(),
             source.startDate(),
             scheduleToDate(source.startDate(), source.taxSchedule()));
-
-    return tax;
   }
 
   private LocalDate scheduleToDate(LocalDate startDate, Schedule schedule) {
