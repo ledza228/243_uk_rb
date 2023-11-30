@@ -2,6 +2,8 @@ package com.testapp.municipalitytax.converter.domainToPayload;
 
 import com.testapp.municipalitytax.domain.MunicipalityTax;
 import com.testapp.municipalitytax.web.payload.TaxResponse;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,11 @@ public class MunicipalityTaxListToTaxResponseConverter
 
   @Override
   public TaxResponse convert(List<MunicipalityTax> source) {
-    throw new UnsupportedOperationException();
+    List<Double> res = source
+            .stream()
+            .map(MunicipalityTax::tax)
+            .toList();
+
+    return new TaxResponse(res);
   }
 }
