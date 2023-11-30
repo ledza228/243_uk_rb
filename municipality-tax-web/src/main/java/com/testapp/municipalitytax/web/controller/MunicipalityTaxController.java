@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/taxes")
 @Validated
@@ -28,8 +30,8 @@ public class MunicipalityTaxController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
-  UUIDResponse addMunicipalityTax(@RequestBody AddTaxRequest addTaxRequest) {
-    throw new UnsupportedOperationException();
+  UUIDResponse addMunicipalityTax(@RequestBody @Valid AddTaxRequest addTaxRequest) {
+    return taxesService.addTax(addTaxRequest);
   }
 
   /**
@@ -44,8 +46,8 @@ public class MunicipalityTaxController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   void updateMunicipalityTax(
-      @PathVariable("taxId") UUID taxId, @RequestBody UpdateTaxRequest updateTaxRequest) {
-    throw new UnsupportedOperationException();
+      @PathVariable("taxId") UUID taxId, @RequestBody @Valid UpdateTaxRequest updateTaxRequest) {
+    taxesService.updateTax(taxId, updateTaxRequest);
   }
 
   /**
@@ -60,7 +62,7 @@ public class MunicipalityTaxController {
   @ResponseBody
   TaxResponse findMunicipalityTax(
       @PathVariable("municipality") String municipality, @PathVariable("date") String date) {
-    throw new UnsupportedOperationException();
+    return taxesService.findTax(municipality, date);
   }
 
   /**
@@ -72,6 +74,6 @@ public class MunicipalityTaxController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   TaxListResponse getAllMunicipalityTaxes() {
-    throw new UnsupportedOperationException();
+    return taxesService.getAllMunicipalityTaxes();
   }
 }

@@ -1,23 +1,23 @@
 package com.testapp.municipalitytax.repository;
 
+import com.testapp.municipalitytax.TestDataFactory;
+import com.testapp.municipalitytax.domain.MunicipalityTax;
+import com.testapp.municipalitytax.entity.TaxEntity;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.springframework.core.convert.ConversionService;
+
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.openMocks;
-
-import com.querydsl.core.types.Predicate;
-import com.testapp.municipalitytax.TestDataFactory;
-import com.testapp.municipalitytax.domain.MunicipalityTax;
-import com.testapp.municipalitytax.entity.TaxEntity;
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.springframework.core.convert.ConversionService;
 
 public class MunicipalityTaxesRepositoryUnitTest {
 
@@ -83,7 +83,7 @@ public class MunicipalityTaxesRepositoryUnitTest {
     MunicipalityTax municipalityTax = TestDataFactory.createSavedMunicipalityTax();
     when(conversionService.convert(any(MunicipalityTax.class), eq(TaxEntity.class)))
         .thenReturn(entity);
-    when(taxesJpaRepository.findById(any())).thenReturn(Optional.empty());
+    when(taxesJpaRepository.findById(any())).thenReturn(Optional.empty()); // let's update if not exists! but what update??
     when(taxesJpaRepository.save(any(TaxEntity.class))).thenReturn(entity);
 
     // when
@@ -103,7 +103,7 @@ public class MunicipalityTaxesRepositoryUnitTest {
     TaxEntity entity = TestDataFactory.createTaxEntity();
     List<MunicipalityTax> expected =
         Collections.singletonList(TestDataFactory.createSavedMunicipalityTax());
-    when(taxesJpaRepository.findAll(any(Predicate.class)))
+    when(taxesJpaRepository.findAll()) // <- nice method calling, sql WHERE clause for loxov))
         .thenReturn(Collections.singletonList(entity));
 
     // when
@@ -112,7 +112,7 @@ public class MunicipalityTaxesRepositoryUnitTest {
 
     // then
     verify(conversionService, times(1)).convert(entity, MunicipalityTax.class);
-    verify(taxesJpaRepository, times(1)).findAll(any(Predicate.class));
+    verify(taxesJpaRepository, times(1)).findAll();
     assertThat(result).usingRecursiveComparison().isEqualTo(expected);
   }
 

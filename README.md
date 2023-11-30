@@ -12,3 +12,5 @@ municipality-tax-domain:
 
 municipality-tax-jpa:
 - repositories and entity
+
+В условии не было сказано, что нельзя что-то менять, поэтому убрал dslQuery, потому что он падал)
